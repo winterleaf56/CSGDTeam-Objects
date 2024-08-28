@@ -6,10 +6,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [Header("Game Attributes")]
-    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject[] enemyPrefabs;
     [SerializeField] private Transform[] spawnPositions;
     [SerializeField] private float enemySpawnRate;
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private int eType;
 
     public PickupManager pickupSpawner;
     public ScoreManager scoreManager;
@@ -19,9 +20,14 @@ public class GameManager : MonoBehaviour
 
     private GameObject tempEnemy;
     private bool isEnemySpawning;
-    private Weapon meleeWeapon = new Weapon("Melee", 1, 0);
     private Player player;
     private bool isPlaying;
+
+    // enemy weapon data
+    private Weapon meleeWeapon = new Weapon("Melee", 1, 0);
+    private Weapon exploderWeapon = new Weapon("Exploder", 30, 0);
+    private Weapon mgWeapon = new Weapon("Machine Gun", 0.5f, 2.5f);
+    private Weapon shooterWeapon = new Weapon("Shooter", 10, 10);
 
     private static GameManager instance;
 
@@ -61,13 +67,38 @@ public class GameManager : MonoBehaviour
     }
 
     void CreateEnemy() {
+        /*
         tempEnemy = Instantiate(enemyPrefab);
         tempEnemy.transform.position = spawnPositions[UnityEngine.Random.Range(0, spawnPositions.Length)].position;
         tempEnemy.GetComponent<Enemy>().weapon = meleeWeapon;
         tempEnemy.GetComponent<MeleeEnemy>().SetMeleeEnemy(2, 0.25f);
 
-        /*int index = UnityEngine.Random.Range(0, spawnPositions.Length);
-        tempEnemy.transform.position = spawnPositions[index].position;*/
+        int index = UnityEngine.Random.Range(0, spawnPositions.Length);
+        tempEnemy.transform.position = spawnPositions[index].position;
+        */
+
+        // selects random enemy to spawn
+        // 0 = melee, 1 = exploder, 2 = machine gun, 3 = shooter
+        eType = UnityEngine.Random.Range(0, enemyPrefabs.Length);
+
+        tempEnemy = Instantiate(enemyPrefabs[eType]);
+        tempEnemy.transform.position = spawnPositions[UnityEngine.Random.Range(0, spawnPositions.Length)].position;
+        if (eType==0) {
+            tempEnemy.GetComponent<Enemy>().weapon = meleeWeapon;
+            tempEnemy.GetComponent<MeleeEnemy>().SetMeleeEnemy(2, 0.25f);
+        }
+        else if(eType==1) {
+            tempEnemy.GetComponent<Enemy>().weapon = exploderWeapon;
+            tempEnemy.GetComponent<ExploderEnemy>().SetExploderEnemy(0.5f, 0.5f);
+        }
+        else if (eType==2) {
+            tempEnemy.GetComponent<Enemy>().weapon = mgWeapon;
+            tempEnemy.GetComponent<MachineGunEnemy>().SetMachineGunEnemy(5, 0.2f);
+        } 
+        else if(eType==3) {
+            tempEnemy.GetComponent<Enemy>().weapon = shooterWeapon;
+            tempEnemy.GetComponent<ShooterEnemy>().SetShooterEnemy(7, 3);
+        }
     }
 
     IEnumerator EnemySpawner() {
@@ -101,7 +132,7 @@ public class GameManager : MonoBehaviour
     IEnumerator GameStarter() {
         yield return new WaitForSeconds(2.0f);
         isEnemySpawning = true;
-        StartCoroutine(EnemySpawner());
+        //StartCoroutine(EnemySpawner());
     }
 
     public void StopGame() {
@@ -113,7 +144,7 @@ public class GameManager : MonoBehaviour
     IEnumerator GameStopper() {
         isEnemySpawning = false;
         //SetEnemySpawnStatus(false);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(2);
 
         // Delete all enemies
         foreach (Enemy item in FindObjectsOfType(typeof(Enemy))) {
@@ -126,6 +157,7 @@ public class GameManager : MonoBehaviour
         }
 
         isPlaying = false;
+        PlayerDied();
     }
 
     public void PlayerDied() {
@@ -135,5 +167,21 @@ public class GameManager : MonoBehaviour
 
     public void SetEnemySpawnStatus(bool enemystatus) {
         isEnemySpawning = enemystatus;
+    }
+
+    public void KillAll(bool includePlayer){
+        // Kill all enemies
+        foreach (Enemy item in FindObjectsOfType(typeof(Enemy))) {
+            item.Die();
+        }
+
+        // Get all pickups
+        foreach (Pickup item in FindObjectsOfType(typeof(Pickup))) {
+            item.OnPickedUp();
+        }
+
+        if (includePlayer) {
+            player.Die();
+        }
     }
 }

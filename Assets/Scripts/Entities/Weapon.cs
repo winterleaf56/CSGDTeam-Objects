@@ -25,6 +25,10 @@ public class Weapon {
         GameObject.Destroy(tempBullet.gameObject, timeToDie);
     }
 
+    public void Nuke() {
+        GameManager.GetInstance().KillAll(false); // kills everything but player
+    }
+
     public float GetDamage() {
         
         return damage;
