@@ -15,13 +15,19 @@ public class Player : PlayableObjects
     [SerializeField] private float bulletSpeed = 10;
     [SerializeField] private Bullet bulletPrefab;
 
-    public float playerHealth;
+    [SerializeField] public int nukeCap;
 
     //public Action<float> OnHealthUpdate;
 
     private Rigidbody2D playerRB;
+    private bool speedIncreased, isInvulnerable;
+
+    public int nukeCount;
+    public bool canRapidFire;
 
     public Action onDeath;
+    public Action<float,float,int> OnTimerUpdate;
+    public Action<int,bool> OnNukeUpdate;
 
     private void Awake() {
         health = new Health(100, 0.5f, 50);
@@ -31,6 +37,11 @@ public class Player : PlayableObjects
         weapon = new Weapon("Player Weapon", weaponDamage, bulletSpeed);
 
         cam = Camera.main;
+
+        speedIncreased = false;
+        isInvulnerable = false;
+        canRapidFire = false;
+        nukeCount = 0;
 
         //OnHealthUpdate?.Invoke(health.GetHealth());
     }
@@ -64,6 +75,17 @@ public class Player : PlayableObjects
         weapon.Shoot(bulletPrefab, this, "Enemy");
     }
 
+    public void AddNuke() {
+        nukeCount = Mathf.Min(nukeCount+1, nukeCap);
+        OnNukeUpdate?.Invoke(nukeCount-1,true);
+    }
+
+    public void Nuke() {
+        nukeCount--;
+        OnNukeUpdate?.Invoke(nukeCount,false);
+        weapon.Nuke();
+    }
+
     public override void Die() {
         Debug.Log("Player is dead");
         onDeath?.Invoke();
@@ -76,6 +98,10 @@ public class Player : PlayableObjects
     }
 
     public override void GetDamage(float damage) {
+        if (isInvulnerable){
+            return;
+        }
+
         health.DeductHealth(damage);
 
         // Update health value from the C# Action
@@ -87,5 +113,73 @@ public class Player : PlayableObjects
         
     }
 
-    // Use an action when an upgrade is purchased to create a new player with the new health value
+    public void IncreaseSpeed(float speedIncrease, float duration) {
+        StartCoroutine(IncreaseSpeedCoroutine(speedIncrease, duration));
+    }
+
+    IEnumerator IncreaseSpeedCoroutine(float speedIncrease, float duration) {
+        speed = speedIncreased ? speed : speed + speedIncrease; // only increases speed once (so it does not stack)
+        speedIncreased = true;
+        float counter = 0f;
+
+        while (counter < duration)
+        {
+            counter += Time.deltaTime;
+            OnTimerUpdate?.Invoke(counter,duration,0);
+            yield return null; //Don't freeze Unity
+        }
+
+        //OnTimerUpdate?.Invoke(duration);
+        //yield return new WaitForSeconds(duration);
+
+        speed = speedIncreased ? speed - speedIncrease : speed;
+        speedIncreased = false;
+    }
+
+    public void ShieldOn(float duration) {
+        StartCoroutine(ShieldOnCoroutine(duration));
+    }
+
+    IEnumerator ShieldOnCoroutine(float duration) {
+        isInvulnerable = true;
+        float counter = 0f;
+
+        while (counter < duration)
+        {
+            counter += Time.deltaTime;
+            OnTimerUpdate?.Invoke(counter,duration,1);
+            yield return null; //Don't freeze Unity
+        }
+
+        isInvulnerable = false;
+    }
+
+    public void RapidFireOn(float duration, float interval) {
+        StartCoroutine(RapidFireOnCoroutine(duration, interval));
+    }
+
+    IEnumerator RapidFireOnCoroutine(float duration, float interval) {
+        canRapidFire = true;
+        float counter = 0f;
+        float counter2 = 0f;
+
+        while (counter < duration)
+        {
+            counter += Time.deltaTime;
+            
+            if (counter2 <= interval) {
+                canRapidFire = false;
+                counter2 += Time.deltaTime;
+            }
+            else {
+                counter2 = 0;
+                canRapidFire = true;
+            }
+            
+            OnTimerUpdate?.Invoke(counter,duration,2);
+            yield return null; //Don't freeze Unity
+        }
+
+        canRapidFire = false;
+    }
 }

@@ -23,8 +23,17 @@ public class PlayerInput : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
         lookTarget = Input.mousePosition;
+
         if (Input.GetMouseButtonDown(0)) {
             player.Shoot();
+        }
+
+        if (Input.GetMouseButton(0) && player.canRapidFire) {
+            player.Shoot();
+        }
+        
+        if (Input.GetMouseButtonDown(1) && player.nukeCount > 0) {
+            player.Nuke();
         }
     }
 
