@@ -57,6 +57,8 @@ public class UIManager : MonoBehaviour
         player.OnTimerUpdate += UpdateTimer;
         player.OnNukeUpdate += UpdateNukeDisplay;
         
+        ResetNukeDisplay();
+        
         menuCanvas.SetActive(false);
     }
 
@@ -100,6 +102,12 @@ public class UIManager : MonoBehaviour
         }
         else if (type==2) {
             UpdateRapidFireTimer(timerTime, duration);
+        }
+    }
+
+    private void ResetNukeDisplay() {
+        foreach(GameObject nukeIcon in nukeDisplay) {
+            nukeIcon.SetActive(false);
         }
     }
 

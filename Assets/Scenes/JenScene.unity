@@ -260,6 +260,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d086ba326509da43bca5a1b2a8ab6dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 1264827934}
+  scoreManager: {fileID: 1461032788}
+  lockedPanel: []
+  purchasedPanel: []
 --- !u!4 &17759291
 Transform:
   m_ObjectHideFlags: 0

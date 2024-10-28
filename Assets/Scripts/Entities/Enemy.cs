@@ -74,14 +74,14 @@ public class Enemy : PlayableObjects
     public override void Die() {
         Debug.Log("Enemy died");
         GameManager.GetInstance().NotifyDeath(this);
+        GameManager.GetInstance().scoreManager.IncrementScore();
+        GameManager.GetInstance().currencyManager.IncreaseCurrency(UnityEngine.Random.Range(minCurrencyDrop, maxCurrencyDrop) * GameManager.GetInstance().GetDifficultyCoefficient()); // drops currency within the range multiplied by the diff. Coeff.
         Destroy(gameObject);
     }
 
     public override void GetDamage(float damage) {
         Debug.Log("Enemy Damaged for " + damage);
         health.DeductHealth(damage);
-        GameManager.GetInstance().scoreManager.IncrementScore();
-        GameManager.GetInstance().currencyManager.IncreaseCurrency(UnityEngine.Random.Range(minCurrencyDrop, maxCurrencyDrop) * GameManager.GetInstance().GetDifficultyCoefficient()); // drops currency within the range multiplied by the diff. Coeff.
         if (health.GetHealth() <= 0) {
             Die();
         }
