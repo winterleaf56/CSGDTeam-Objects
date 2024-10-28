@@ -64,7 +64,6 @@ public class Player : PlayableObjects
 
     private void Update() {
         health.RegenHealth();
-        playerHealth = health.GetHealth();
     }
 
     /// <summary>
