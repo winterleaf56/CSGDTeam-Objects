@@ -6,6 +6,7 @@ using UnityEngine;
 public class Enemy : PlayableObjects
 {
     [SerializeField] protected float speed;
+    [SerializeField] protected int minCurrencyDrop = 1, maxCurrencyDrop = 3;
 
     protected Transform target;
 
@@ -80,6 +81,7 @@ public class Enemy : PlayableObjects
         Debug.Log("Enemy Damaged for " + damage);
         health.DeductHealth(damage);
         GameManager.GetInstance().scoreManager.IncrementScore();
+        GameManager.GetInstance().currencyManager.IncreaseCurrency(UnityEngine.Random.Range(minCurrencyDrop, maxCurrencyDrop) * GameManager.GetInstance().GetDifficultyCoefficient()); // drops currency within the range multiplied by the diff. Coeff.
         if (health.GetHealth() <= 0) {
             Die();
         }

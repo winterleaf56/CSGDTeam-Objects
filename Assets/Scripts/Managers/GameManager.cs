@@ -10,18 +10,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform[] spawnPositions;
     [SerializeField] private float enemySpawnRate;
     [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private int eType;
 
     public PickupManager pickupSpawner;
     public ScoreManager scoreManager;
+    public CurrencyManager currencyManager;
 
     public Action onGameStart;
     public Action onGameOver;
 
     private GameObject tempEnemy;
     private bool isEnemySpawning;
+    private int eType;
+
     private Player player;
     private bool isPlaying;
+
+    [SerializeField] private int difficultyThreshold = 10; // every time the score increases by 10 (or whatever), the difficulty increases
+    private int difficultyCoefficient = 1;
+    private int maxDifficultyCoefficient = 5;
 
     // enemy weapon data
     private Weapon meleeWeapon = new Weapon("Melee", 1, 0);
@@ -44,10 +50,10 @@ public class GameManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    /*void Start()
+    void Start()
     {
         isEnemySpawning = true;
-        StartCoroutine(EnemySpawner());
+        //StartCoroutine(EnemySpawner());
     }
 
     void FindPlayer() {
@@ -56,7 +62,7 @@ public class GameManager : MonoBehaviour
         } catch (NullReferenceException e) {
             Debug.Log("Player not found, " + e);
         }
-    }*/
+    }
 
     // Update is called once per frame
     void Update()
@@ -103,7 +109,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator EnemySpawner() {
         while (isEnemySpawning) {
-            yield return new WaitForSeconds(1 / enemySpawnRate);
+            yield return new WaitForSeconds(1 / (enemySpawnRate * difficultyCoefficient));
             CreateEnemy();
         }
     }
@@ -132,7 +138,7 @@ public class GameManager : MonoBehaviour
     IEnumerator GameStarter() {
         yield return new WaitForSeconds(2.0f);
         isEnemySpawning = true;
-        //StartCoroutine(EnemySpawner());
+        StartCoroutine(EnemySpawner());
     }
 
     public void StopGame() {
@@ -183,5 +189,17 @@ public class GameManager : MonoBehaviour
         if (includePlayer) {
             player.Die();
         }
+    }
+
+    public void IncreaseDifficulty() {
+        difficultyCoefficient = Mathf.Min(difficultyCoefficient + 1, maxDifficultyCoefficient);
+    }
+
+    public int GetDifficultyCoefficient() {
+        return difficultyCoefficient;
+    }
+    
+    public int GetDifficultyThreshold() {
+        return difficultyThreshold;
     }
 }

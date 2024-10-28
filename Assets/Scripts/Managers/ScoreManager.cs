@@ -7,6 +7,7 @@ public class ScoreManager : MonoBehaviour
 {
     public UnityEvent OnScoreUpdated;
     public UnityEvent OnHighScoreUpdated;
+    public UnityEvent OnScoreThresholdReached;
 
     private int score, highScore;
 
@@ -31,6 +32,10 @@ public class ScoreManager : MonoBehaviour
         if (score > highScore) {
             highScore = score;
             OnHighScoreUpdated?.Invoke();
+        }
+
+        if(score>0 && score % GameManager.GetInstance().GetDifficultyThreshold() == 0) {
+            OnScoreThresholdReached?.Invoke();
         }
     }
 

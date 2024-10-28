@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
 {
     [Header("Gameplay")]
     [SerializeField] private TMP_Text txtHealth;
-    [SerializeField] private TMP_Text txtScore, txtHighScore;
+    [SerializeField] private TMP_Text txtScore, txtHighScore, txtCurrency;
     [SerializeField] private Image speedTimer, shieldTimer, rapidFireTimer;
     [SerializeField] private GameObject[] nukeDisplay;
 
@@ -19,12 +19,14 @@ public class UIManager : MonoBehaviour
 
     private Player player;
     private ScoreManager scoreManager;
+    private CurrencyManager currencyManager;
     private Camera cam;
 
     // Start is called before the first frame update
     void Awake()
     {
         scoreManager = GameManager.GetInstance().scoreManager;
+        currencyManager = GameManager.GetInstance().currencyManager;
 
         cam = Camera.main;
 
@@ -43,6 +45,10 @@ public class UIManager : MonoBehaviour
     public void UpdateHighScore() {
         txtHighScore.SetText(scoreManager.GetHighScore().ToString());
         txtMenuHighScore.SetText($"High Score: {scoreManager.GetHighScore()}");
+    }
+
+    public void UpdateCurrency() {
+        txtCurrency.SetText($"$ {currencyManager.GetCurrency()}");
     }
 
     public void GameStarted() {
