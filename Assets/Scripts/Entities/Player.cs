@@ -15,6 +15,8 @@ public class Player : PlayableObjects
     [SerializeField] private float bulletSpeed = 10;
     [SerializeField] private Bullet bulletPrefab;
 
+    public float playerHealth;
+
     //public Action<float> OnHealthUpdate;
 
     private Rigidbody2D playerRB;
@@ -51,6 +53,7 @@ public class Player : PlayableObjects
 
     private void Update() {
         health.RegenHealth();
+        playerHealth = health.GetHealth();
     }
 
     /// <summary>
@@ -83,4 +86,6 @@ public class Player : PlayableObjects
         }
         
     }
+
+    // Use an action when an upgrade is purchased to create a new player with the new health value
 }

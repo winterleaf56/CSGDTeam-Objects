@@ -46,9 +46,19 @@ public class UIManager : MonoBehaviour
         menuCanvas.SetActive(false);
     }
 
+    // When a health upgrade is purchased, the UpdateHealth action is unsubscribed from,
+    // the player is then fetched, and then a new subscription is made
+    public void HealthUpgrade() {
+        player.health.OnHealthUpdate -= UpdateHealth;
+        player = GameManager.GetInstance().GetPlayer();
+        player.health.OnHealthUpdate += UpdateHealth;
+    }
+
     public void GameOver() {
         Debug.Log("Game Over");
         gameOverLabel.SetActive(true);
         menuCanvas.SetActive(true);
+
+        // reset upgrades
     }
 }
