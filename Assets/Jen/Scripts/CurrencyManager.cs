@@ -20,6 +20,7 @@ public class CurrencyManager : MonoBehaviour
     }
 
     public void DeductCurrency(int value) {
+        Debug.Log("Deducting currency: " + value);
         currentCurrency -= value;
         OnCurrencyUpdated?.Invoke();
     }
