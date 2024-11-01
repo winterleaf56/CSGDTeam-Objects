@@ -31,6 +31,14 @@ public class Health
        return currentHealth;
     }
 
+    public float GetMaxHealth() {
+        return maxHealth;
+    }
+
+    public float GetRegenRate() {
+        return healthRegenRate;
+    }
+
     public void RegenHealth() {
         AddHealth(healthRegenRate * Time.deltaTime);
     }

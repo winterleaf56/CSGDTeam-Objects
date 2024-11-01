@@ -34,8 +34,9 @@ public class UIManager : MonoBehaviour
         GameManager.GetInstance().onGameOver += GameOver;
     }
 
+    // Rounds the health to one decimal place
     public void UpdateHealth(float currentHealth) {
-        txtHealth.SetText(currentHealth.ToString());
+        txtHealth.SetText(currentHealth.ToString("F1"));
     }
 
     public void UpdateScore(int currentScore) {
@@ -62,7 +63,7 @@ public class UIManager : MonoBehaviour
         menuCanvas.SetActive(false);
     }
 
-    // When a health upgrade is purchased, the UpdateHealth action is unsubscribed from,
+    // When a health or regen upgrade is purchased, the UpdateHealth action is unsubscribed from,
     // the player is then fetched, and then a new subscription is made
     public void HealthUpgrade() {
         player.health.OnHealthUpdate -= UpdateHealth;
