@@ -17,6 +17,10 @@ public class Player : PlayableObjects
 
     [SerializeField] public int nukeCap;
 
+    SoundManager _soundManager;
+
+    SpriteRenderer _spriteRenderer;
+
     //public Action<float> OnHealthUpdate;
 
     private Rigidbody2D playerRB;
@@ -42,6 +46,9 @@ public class Player : PlayableObjects
         isInvulnerable = false;
         canRapidFire = false;
         nukeCount = 0;
+
+        _soundManager = FindAnyObjectByType<SoundManager>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         //OnHealthUpdate?.Invoke(health.GetHealth());
     }
@@ -73,6 +80,7 @@ public class Player : PlayableObjects
 
     public override void Shoot() {
         weapon.Shoot(bulletPrefab, this, "Enemy");
+        _soundManager.PlaySound("Shoot");
     }
 
     public void AddNuke() {
@@ -84,6 +92,7 @@ public class Player : PlayableObjects
         nukeCount--;
         OnNukeUpdate?.Invoke(nukeCount,false);
         weapon.Nuke();
+        _soundManager.PlaySound("Nuke");
     }
 
     public override void Die() {
@@ -115,6 +124,7 @@ public class Player : PlayableObjects
 
     public void IncreaseSpeed(float speedIncrease, float duration) {
         StartCoroutine(IncreaseSpeedCoroutine(speedIncrease, duration));
+        _soundManager.PlaySound("SpeedUp");
     }
 
     IEnumerator IncreaseSpeedCoroutine(float speedIncrease, float duration) {
@@ -138,6 +148,7 @@ public class Player : PlayableObjects
 
     public void ShieldOn(float duration) {
         StartCoroutine(ShieldOnCoroutine(duration));
+        _soundManager.PlaySound("Shield");
     }
 
     IEnumerator ShieldOnCoroutine(float duration) {
@@ -156,6 +167,7 @@ public class Player : PlayableObjects
 
     public void RapidFireOn(float duration, float interval) {
         StartCoroutine(RapidFireOnCoroutine(duration, interval));
+        _soundManager.PlaySound("RapidFire");
     }
 
     IEnumerator RapidFireOnCoroutine(float duration, float interval) {
@@ -181,5 +193,11 @@ public class Player : PlayableObjects
         }
 
         canRapidFire = false;
+    }
+
+    public void ChangeSprite(Sprite newSprite)
+    {
+        _spriteRenderer.sprite = newSprite;
+
     }
 }
