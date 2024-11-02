@@ -57,7 +57,6 @@ public class Enemy : PlayableObjects
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
         transform.Translate(Vector2.right * speed * Time.deltaTime);
-        transform.up = target.position - transform.position;  //added so the enemies would face the target
     }
 
     public override void Move(float speed) {
