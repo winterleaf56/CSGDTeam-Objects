@@ -17,6 +17,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject gameOverLabel;
     [SerializeField] private TMP_Text txtMenuHighScore;
 
+    [Header("Paused")]
+    [SerializeField] private GameObject pauseCanvas;
+
     private Player player;
     private ScoreManager scoreManager;
     private CurrencyManager currencyManager;
@@ -32,6 +35,7 @@ public class UIManager : MonoBehaviour
 
         GameManager.GetInstance().onGameStart += GameStarted;
         GameManager.GetInstance().onGameOver += GameOver;
+        GameManager.GetInstance().onGamePause += GamePaused;
     }
 
     // Rounds the health to one decimal place
@@ -77,6 +81,10 @@ public class UIManager : MonoBehaviour
         menuCanvas.SetActive(true);
 
         // reset upgrades
+    }
+
+    public void GamePaused(bool paused) {
+        pauseCanvas.SetActive(paused);
     }
 
     private void UpdateSpeedTimer(float timerTime, float duration){  

@@ -18,12 +18,16 @@ public class GameManager : MonoBehaviour
     public Action onGameStart;
     public Action onGameOver;
 
+    public Action<bool> onGamePause;
+
     private GameObject tempEnemy;
     private bool isEnemySpawning;
     private int eType;
 
     private Player player;
     private bool isPlaying;
+
+    private bool paused;
 
     [SerializeField] private int difficultyThreshold = 10; // every time the score increases by 10 (or whatever), the difficulty increases
     private int difficultyCoefficient = 1;
@@ -69,6 +73,10 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.M)) {
             CreateEnemy();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            PauseGame();
         }
     }
 
@@ -164,6 +172,18 @@ public class GameManager : MonoBehaviour
 
         isPlaying = false;
         PlayerDied();
+    }
+
+    private void PauseGame() {
+        if (!paused) {
+            paused = true;
+            onGamePause?.Invoke(true);
+            Time.timeScale = 0;
+        } else {
+            paused = false;
+            onGamePause?.Invoke(false);
+            Time.timeScale = 1;
+        }
     }
 
     public void PlayerDied() {
