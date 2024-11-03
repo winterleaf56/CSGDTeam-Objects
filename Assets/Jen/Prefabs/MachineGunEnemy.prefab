@@ -161,9 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23891fff440b9084cb8ec4a0723c5a8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 0
   minCurrencyDrop: 1
   maxCurrencyDrop: 3
-  attackRange: 5
+  attackRange: 0
   attackTime: 0
-  bulletPrefab: {fileID: 6383617594917567549, guid: e61364bba4839b049b5a9f8c4d887658, type: 3}
+  bulletPrefab: {fileID: 0}

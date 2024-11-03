@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShooterEnemy : Enemy
-{
+public class ShooterEnemy : Enemy {
     [SerializeField] private float attackRange;
     [SerializeField] private float attackTime = 0;
     
