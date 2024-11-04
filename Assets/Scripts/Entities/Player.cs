@@ -198,6 +198,6 @@ public class Player : PlayableObjects
     public void ChangeSprite(Sprite newSprite)
     {
         _spriteRenderer.sprite = newSprite;
-
+        Debug.Log("Sprite Changed");
     }
 }
