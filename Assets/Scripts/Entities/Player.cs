@@ -17,9 +17,10 @@ public class Player : PlayableObjects
 
     [SerializeField] public int nukeCap;
 
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+
     SoundManager _soundManager;
 
-    SpriteRenderer _spriteRenderer;
 
     //public Action<float> OnHealthUpdate;
 
@@ -48,7 +49,6 @@ public class Player : PlayableObjects
         nukeCount = 0;
 
         _soundManager = FindAnyObjectByType<SoundManager>();
-        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         //OnHealthUpdate?.Invoke(health.GetHealth());
     }
