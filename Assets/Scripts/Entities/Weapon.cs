@@ -25,8 +25,18 @@ public class Weapon {
         GameObject.Destroy(tempBullet.gameObject, timeToDie);
     }
 
-    public void Nuke() {
-        GameManager.GetInstance().KillAll(false); // kills everything but player
+    public void Nuke(PlayableObjects _player, float _radius, LayerMask _enemyLayer) {
+        //GameManager.GetInstance().KillAll(false); // kills everything but player
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(_player.transform.position, _radius, _enemyLayer);
+
+        foreach(var collider in hitColliders) {
+            if(collider.gameObject.GetComponent<Enemy>() != null) {
+                collider.gameObject.GetComponent<Enemy>().Die(); // kills enemies
+            }
+            else {
+                GameObject.Destroy(collider.gameObject); // destroys pickups without actually picking them up
+            }
+        }
     }
 
     public float GetDamage() {

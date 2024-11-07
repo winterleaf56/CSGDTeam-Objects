@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5585849487152085148}
   - component: {fileID: 1202525682608242643}
   - component: {fileID: 5944997641562813409}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: NukePickup
   m_TagString: Enemy
   m_Icon: {fileID: 0}

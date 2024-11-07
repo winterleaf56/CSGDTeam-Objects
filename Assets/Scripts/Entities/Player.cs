@@ -16,19 +16,20 @@ public class Player : PlayableObjects
     [SerializeField] private Bullet bulletPrefab;
 
     [SerializeField] public int nukeCap;
+    [SerializeField] private float nukeRadius;
+    [SerializeField] private LayerMask enemyLayer;
 
     //[SerializeField] private SpriteRenderer _spriteRenderer;
 
     SoundManager _soundManager;
-
 
     //public Action<float> OnHealthUpdate;
 
     private Rigidbody2D playerRB;
     private bool speedIncreased, isInvulnerable;
 
-    public int nukeCount;
-    public bool canRapidFire;
+    [HideInInspector] public int nukeCount;
+    [HideInInspector] public bool canRapidFire;
 
     public Action onDeath;
     public Action<float,float,int> OnTimerUpdate;
@@ -91,7 +92,7 @@ public class Player : PlayableObjects
     public void Nuke() {
         nukeCount--;
         OnNukeUpdate?.Invoke(nukeCount,false);
-        weapon.Nuke();
+        weapon.Nuke(this, nukeRadius, enemyLayer);
         _soundManager.PlaySound("Nuke");
     }
 
