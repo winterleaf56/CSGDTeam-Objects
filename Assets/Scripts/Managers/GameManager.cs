@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
     {
         isEnemySpawning = true;
         //StartCoroutine(EnemySpawner());
+        StartGame();
     }
 
     void FindPlayer() {
@@ -141,6 +142,7 @@ public class GameManager : MonoBehaviour
         player = Instantiate(playerPrefab, Vector2.zero, Quaternion.identity).GetComponent<Player>();
         player.onDeath += StopGame;
         isPlaying = true;
+        Time.timeScale = 1;
 
         onGameStart?.Invoke();
         StartCoroutine(GameStarter());
@@ -182,10 +184,12 @@ public class GameManager : MonoBehaviour
     private void PauseGame() {
         if (!paused) {
             paused = true;
+            isPlaying = false;
             onGamePause?.Invoke(true);
             Time.timeScale = 0;
         } else {
             paused = false;
+            isPlaying = true;
             onGamePause?.Invoke(false);
             Time.timeScale = 1;
         }

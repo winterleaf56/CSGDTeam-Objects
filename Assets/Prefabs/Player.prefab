@@ -262,6 +262,10 @@ MonoBehaviour:
   bulletSpeed: 10
   bulletPrefab: {fileID: 6383617594917567549, guid: e61364bba4839b049b5a9f8c4d887658, type: 3}
   nukeCap: 3
+  nukeRadius: 10
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
   nukeCount: 0
   canRapidFire: 0
 --- !u!58 &8224092664318653476

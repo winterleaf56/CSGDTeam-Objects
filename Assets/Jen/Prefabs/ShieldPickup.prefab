@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2849672824218594889}
   - component: {fileID: 751301947857260822}
   - component: {fileID: 6831669105541667629}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ShieldPickup
   m_TagString: Enemy
   m_Icon: {fileID: 0}
