@@ -17,7 +17,7 @@ public class Player : PlayableObjects
 
     [SerializeField] public int nukeCap;
 
-    [SerializeField] private SpriteRenderer _spriteRenderer;
+    //[SerializeField] private SpriteRenderer _spriteRenderer;
 
     SoundManager _soundManager;
 
@@ -195,9 +195,9 @@ public class Player : PlayableObjects
         canRapidFire = false;
     }
 
-    public void ChangeSprite(Sprite newSprite)
+    /*public void ChangeSprite(Sprite newSprite)
     {
         _spriteRenderer.sprite = newSprite;
         Debug.Log("Sprite Changed");
-    }
+    }*/
 }

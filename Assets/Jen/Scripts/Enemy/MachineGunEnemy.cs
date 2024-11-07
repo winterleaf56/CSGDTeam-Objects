@@ -5,7 +5,7 @@ using UnityEngine;
 public class MachineGunEnemy : Enemy {
     [SerializeField] private float attackRange;
     [SerializeField] private float attackTime = 0;
-    
+
     [SerializeField] private Bullet bulletPrefab;
 
     private float timer = 0;

@@ -71,9 +71,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M)) {
+        /*if (Input.GetKeyDown(KeyCode.M)) {
             CreateEnemy();
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
             PauseGame();
@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
         // selects random enemy to spawn
         // 0 = melee, 1 = exploder, 2 = machine gun, 3 = shooter
         eType = UnityEngine.Random.Range(0, enemyPrefabs.Length);
+        print("Enemy type: " + eType);
 
         tempEnemy = Instantiate(enemyPrefabs[eType]);
         tempEnemy.transform.position = spawnPositions[UnityEngine.Random.Range(0, spawnPositions.Length)].position;
@@ -158,7 +159,7 @@ public class GameManager : MonoBehaviour
     IEnumerator GameStopper() {
         isEnemySpawning = false;
         //SetEnemySpawnStatus(false);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.1f); // Changed from 2 seconds to 0.1 seconds
 
         // Delete all enemies
         foreach (Enemy item in FindObjectsOfType(typeof(Enemy))) {
@@ -169,6 +170,8 @@ public class GameManager : MonoBehaviour
         foreach (Pickup item in FindObjectsOfType(typeof(Pickup))) {
             Destroy(item.gameObject);
         }
+
+        difficultyCoefficient = 1;
 
         isPlaying = false;
         PlayerDied();

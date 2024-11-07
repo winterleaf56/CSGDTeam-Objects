@@ -5,15 +5,21 @@ using UnityEngine;
 public class UpgradeManager : MonoBehaviour
 {
     private Player player;
+
+    [Header("Scripts")]
     [SerializeField] private UIManager uiManager;
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private CurrencyManager currencyManager;
 
+    [Header("Upgrade Panels")]
     [SerializeField] private GameObject[] healthLockedPanel;
     [SerializeField] private GameObject[] healthPurchasedPanel;
 
     [SerializeField] private GameObject[] regenLockedPanel;
     [SerializeField] private GameObject[] regenPurchasedPanel;
+
+    [Header("Health Sprites")]
+    [SerializeField] private Sprite[] healthSprites;
 
     private float currentRegenRate, currentMaxHealth;
 
@@ -59,7 +65,7 @@ public class UpgradeManager : MonoBehaviour
     // price is the cost
     // panel is the index of the purchase and locked panels
     // lastUpgrade avoids error for no remaining locked panels
-    private void UpgradeHealth(float newMaxHealth, int price, int panel, bool lastUpgrade) {
+    private void UpgradeHealth(float newMaxHealth, int price, int upgradeNumber, bool lastUpgrade) {
         player = GameManager.GetInstance().GetPlayer();
 
         currentRegenRate = player.health.GetRegenRate();
@@ -71,10 +77,13 @@ public class UpgradeManager : MonoBehaviour
         // UI Manager is then notified of the health upgrade
         uiManager.HealthUpgrade();
 
-        healthPurchasedPanel[panel].SetActive(true);
+        // Change the player's ship sprite
+        player.transform.Find("Triangle").GetComponent<SpriteRenderer>().sprite = healthSprites[upgradeNumber];
+
+        healthPurchasedPanel[upgradeNumber].SetActive(true);
 
         if (!lastUpgrade) {
-            healthLockedPanel[panel].SetActive(false);
+            healthLockedPanel[upgradeNumber].SetActive(false);
         }
 
         Debug.Log("Button pressed and new health is: " + newMaxHealth);
