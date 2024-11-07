@@ -106,11 +106,11 @@ public class UpgradeManager : MonoBehaviour
             panel.SetActive(false);
         }
 
-        for (int i = 0; i <= healthLockedPanel.Length; i++) {
+        for (int i = 0; i < healthLockedPanel.Length; i++) {
             healthLockedPanel[i].SetActive(true);
         }
 
-        for (int i = 0; i <= regenLockedPanel.Length; i++) {
+        for (int i = 0; i < regenLockedPanel.Length; i++) {
             regenLockedPanel[i].SetActive(true);
         }
     }
