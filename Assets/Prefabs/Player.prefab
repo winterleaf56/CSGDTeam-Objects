@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3538682680884451054}
   - component: {fileID: 559741080011304993}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4379433359317870087}
   - component: {fileID: 4246463051498256459}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 5767888994526141118}
   - component: {fileID: 8929634097427705683}
   - component: {fileID: 8224092664318653476}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -262,7 +262,6 @@ MonoBehaviour:
   bulletSpeed: 10
   bulletPrefab: {fileID: 6383617594917567549, guid: e61364bba4839b049b5a9f8c4d887658, type: 3}
   nukeCap: 3
-  _spriteRenderer: {fileID: 4246463051498256459}
   nukeCount: 0
   canRapidFire: 0
 --- !u!58 &8224092664318653476

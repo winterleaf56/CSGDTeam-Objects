@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6755985246682947394}
   - component: {fileID: 6837030766696118295}
   - component: {fileID: 7008561044156784459}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MeleeEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -127,6 +127,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  minCurrencyDrop: 1
+  maxCurrencyDrop: 3
   attackRange: 0.5
   attackTime: 1
 --- !u!61 &7008561044156784459
@@ -165,7 +167,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.56, y: 2.56}
+    oldSize: {x: 2.048, y: 2.048}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

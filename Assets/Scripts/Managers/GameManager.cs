@@ -29,8 +29,10 @@ public class GameManager : MonoBehaviour
 
     private bool paused;
 
+    private const int defaultDifCoef = 1;
+
     [SerializeField] private int difficultyThreshold = 10; // every time the score increases by 10 (or whatever), the difficulty increases
-    private int difficultyCoefficient = 1;
+    private int difficultyCoefficient = defaultDifCoef;
     private int maxDifficultyCoefficient = 5;
 
     // enemy weapon data
@@ -171,7 +173,7 @@ public class GameManager : MonoBehaviour
             Destroy(item.gameObject);
         }
 
-        difficultyCoefficient = 1;
+        difficultyCoefficient = defaultDifCoef;
 
         isPlaying = false;
         PlayerDied();
