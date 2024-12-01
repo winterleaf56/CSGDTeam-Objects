@@ -20,6 +20,10 @@ public class UIManager : MonoBehaviour
     [Header("Paused")]
     [SerializeField] private GameObject pauseCanvas;
 
+    [Header("Shop Header")]
+    [SerializeField] private TMP_Text maxHealthText;
+    [SerializeField] private TMP_Text regenRateText;
+
     private Player player;
     private ScoreManager scoreManager;
     private CurrencyManager currencyManager;
@@ -61,7 +65,10 @@ public class UIManager : MonoBehaviour
         player.health.OnHealthUpdate += UpdateHealth;
         player.OnTimerUpdate += UpdateTimer;
         player.OnNukeUpdate += UpdateNukeDisplay;
-        
+
+        maxHealthText.SetText(player.health.GetMaxHealth().ToString());
+        regenRateText.SetText(player.health.GetRegenRate().ToString() + "/s");
+
         ResetNukeDisplay();
         
         menuCanvas.SetActive(false);
@@ -69,9 +76,12 @@ public class UIManager : MonoBehaviour
 
     // When a health or regen upgrade is purchased, the UpdateHealth action is unsubscribed from,
     // the player is then fetched, and then a new subscription is made
+    // The max health and regen rate are then updated in the shop header
     public void HealthUpgrade() {
         player.health.OnHealthUpdate -= UpdateHealth;
         player = GameManager.GetInstance().GetPlayer();
+        maxHealthText.SetText(player.health.GetMaxHealth().ToString());
+        regenRateText.SetText(player.health.GetRegenRate().ToString() + "/s");
         player.health.OnHealthUpdate += UpdateHealth;
     }
 

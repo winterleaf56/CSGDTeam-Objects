@@ -87,6 +87,7 @@ public class UpgradeManager : MonoBehaviour
         }
 
         Debug.Log("Button pressed and new health is: " + newMaxHealth);
+        //maxHealthText.SetText(newMaxHealth.ToString());
     }
 
     private void UpgradeRegen(float newRegenRate, int price, int panel, bool lastUpgrade) {
@@ -104,6 +105,8 @@ public class UpgradeManager : MonoBehaviour
         if (!lastUpgrade) {
             regenLockedPanel[panel].SetActive(false);
         }
+
+        //regenRateText.SetText(newRegenRate.ToString() + "/s");
     }
 
     public void GameOver() {
